@@ -1,0 +1,15 @@
+#folders#
+.idea
+.vscode
+/target
+.classpath
+.project
+.settings/
+/movie-service-utils/jars/
+
+# Packaged files #
+#*.jar
+*.war
+*.ear
+*.iml
+
