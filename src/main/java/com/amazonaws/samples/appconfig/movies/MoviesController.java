@@ -111,7 +111,7 @@ public class MoviesController {
 
     @RequestMapping(value = "/movies/{movie}/edit", method = POST)
     public String processUpdateMovie(@Valid Movie movie, BindingResult result, @PathVariable("movieId") int movieId) {
-        if (!MovieUtils.isValidMovieName(movie.getMovieName())) {
+        if (!MovieUtils.isValidMovie(movie.getMovieName(), movieId)) {
             result.rejectValue("name", "error.name", "Invalid movie name");
             return "editMovieForm";
         }
