@@ -33,17 +33,11 @@ public class HTMLBuilder {
     private static String getMovieItemsHtml(Movie[] movies) {
         StringBuilder movieItemsHtml = new StringBuilder();
         for (Movie movie : movies) {
-            movieItemsHtml.append("""
-                    <div class='movie-item'>\
-                    <p>ID: \
-                    """).append(movie.getId()).append("""
-                    </p>\
-                    <h3>\
-                    """).append(movie.getMovieName()).append("""
-                    </h3>\
-                    <hr width="100%" size="2" color="blue" noshade>\
-                    </div>\
-                    """);
+            movieItemsHtml.append("<div class='movie-item'>")
+                    .append("<p>ID: ").append(movie.getId()).append("</p>")
+                    .append("<h3>").append(movie.getMovieName()).append("</h3>")
+                    .append("<hr width=\"100%\" size=\"2\" color=\"blue\" noshade>")
+                    .append("</div>");
         }
         return movieItemsHtml.toString();
     }
