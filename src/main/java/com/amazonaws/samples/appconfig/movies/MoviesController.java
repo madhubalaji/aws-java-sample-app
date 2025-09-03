@@ -109,32 +109,32 @@ public class MoviesController {
             HTMLBuilder htmlBuilder = new HTMLBuilder();
             String moviesHtml = htmlBuilder.getMoviesHtml(PAIDMOVIES);
             return moviesHtml;
-        }
-    }
-
-    /**
-     * REST API method to search movies based on query parameters.
-     *
-     * @param name Movie name to search for (optional)
-     * @param id Movie ID to search for (optional)
-     * @param genre Movie genre to search for (optional)
-     * @return HTML response with search results
-     */
     @GetMapping("/movies/search")
     public String searchMovies(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "id", required = false) Long id,
             @RequestParam(value = "genre", required = false) String genre) {
         
-        logger.info("Searching movies with parameters - name: {}, id: {}, genre: {}", name, id, genre);
+        // Validate and sanitize input parameters
+        if (name != null) {
+            name = name.trim();
+            if (name.length() > 200) {
+                return getErrorResponse("Movie name search term too long");
+            }
+        }
         
-        try {
-            // Get all movies first
-            List<Movie> allMovies = getAllMoviesFromConfig();
-            
-            // Filter movies based on search criteria
-            List<Movie> filteredMovies = filterMovies(allMovies, name, id, genre);
-            
+        if (id != null && id < 0) {
+            return getErrorResponse("Invalid movie ID");
+        }
+        
+        if (genre != null) {
+            genre = genre.trim();
+            if (genre.length() > 50) {
+                return getErrorResponse("Genre search term too long");
+            }
+        }
+        
+        logger.info("Searching movies with parameters - name: {}, id: {}, genre: {}", name, id, genre);
             // Convert to array
             Movie[] moviesArray = filteredMovies.toArray(new Movie[0]);
             
