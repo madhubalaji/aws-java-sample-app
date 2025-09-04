@@ -109,6 +109,9 @@ public class MoviesController {
             HTMLBuilder htmlBuilder = new HTMLBuilder();
             String moviesHtml = htmlBuilder.getMoviesHtml(PAIDMOVIES);
             return moviesHtml;
+        }
+    }
+
     @GetMapping("/movies/search")
     public String searchMovies(
             @RequestParam(value = "name", required = false) String name,
@@ -135,6 +138,14 @@ public class MoviesController {
         }
         
         logger.info("Searching movies with parameters - name: {}, id: {}, genre: {}", name, id, genre);
+        
+        try {
+            // Get movies from AppConfig
+            List<Movie> allMovies = getAllMoviesFromConfig();
+            
+            // Filter movies based on search criteria
+            List<Movie> filteredMovies = filterMovies(allMovies, name, id, genre);
+            
             // Convert to array
             Movie[] moviesArray = filteredMovies.toArray(new Movie[0]);
             
@@ -243,6 +254,17 @@ public class MoviesController {
         return queryParts.isEmpty() ? "" : String.join(", ", queryParts);
     }
 
+    /**
+     * Helper method to generate error response HTML
+     */
+    private String getErrorResponse(String errorMessage) {
+        return "<div style='color: red; padding: 20px; border: 1px solid red; margin: 20px; border-radius: 5px;'>"
+                + "<h2>Error</h2>"
+                + "<p>" + errorMessage + "</p>"
+                + "<a href='/movies/getMovies'>Back to Movies</a>"
+                + "</div>";
+    }
+
     @RequestMapping(value = "/movies/{movie}/edit", method = POST)
     public String processUpdateMovie(@Valid Movie movie, BindingResult result, @PathVariable("movieId") int movieId) {
         if (!MovieUtils.isValidMovieName(movie.getMovieName())) {
@@ -272,8 +294,9 @@ public class MoviesController {
             JSONObject movieObj = moviesArray.getJSONObject(i);
             long id = movieObj.getLong("id");
             String movieName = movieObj.getString("movieName");
-            // Extract other fields as needed
-            movieList.add(movie);
+            String genre = movieObj.optString("genre", "Unknown");
+            Movie movieFromJson = new Movie(id, movieName, genre);
+            movieList.add(movieFromJson);
         }
         Movie[] movies = movieList.toArray(new Movie[movieList.size()]);
         HTMLBuilder htmlBuilder = new HTMLBuilder();
