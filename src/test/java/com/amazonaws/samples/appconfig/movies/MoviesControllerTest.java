@@ -16,6 +16,8 @@ import java.util.UUID;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class MoviesControllerTest {
@@ -68,6 +70,71 @@ public class MoviesControllerTest {
         }
         //assertArrayEquals(expectedMovies, movies);
         assertEquals(5, expectedMovies.length);
+    }
+
+    @Test
+    public void testSearchMoviesByName() {
+        // Test search functionality with name parameter
+        String result = moviesController.searchMovies("Static Movie 1", null, null);
+        
+        // Verify the result contains search form and movie information
+        assertTrue("Result should contain search form", result.contains("Search Movies"));
+        assertTrue("Result should contain movie name", result.contains("Static Movie 1"));
+        assertTrue("Result should contain search results header", result.contains("Search Results"));
+    }
+
+    @Test
+    public void testSearchMoviesById() {
+        // Test search functionality with ID parameter
+        String result = moviesController.searchMovies(null, 1L, null);
+        
+        // Verify the result contains the correct movie
+        assertTrue("Result should contain search form", result.contains("Search Movies"));
+        assertTrue("Result should contain movie ID", result.contains("ID:</strong> 1"));
+        assertTrue("Result should contain search results header", result.contains("Search Results"));
+    }
+
+    @Test
+    public void testSearchMoviesByGenre() {
+        // Test search functionality with genre parameter
+        String result = moviesController.searchMovies(null, null, "Action");
+        
+        // Verify the result contains movies with Action genre
+        assertTrue("Result should contain search form", result.contains("Search Movies"));
+        assertTrue("Result should contain Action genre", result.contains("Action"));
+        assertTrue("Result should contain search results header", result.contains("Search Results"));
+    }
+
+    @Test
+    public void testSearchMoviesWithMultipleParameters() {
+        // Test search functionality with multiple parameters
+        String result = moviesController.searchMovies("Static Movie 1", 1L, "Action");
+        
+        // Verify the result contains the specific movie matching all criteria
+        assertTrue("Result should contain search form", result.contains("Search Movies"));
+        assertTrue("Result should contain movie name", result.contains("Static Movie 1"));
+        assertTrue("Result should contain movie ID", result.contains("ID:</strong> 1"));
+        assertTrue("Result should contain Action genre", result.contains("Action"));
+    }
+
+    @Test
+    public void testSearchMoviesNoResults() {
+        // Test search functionality with parameters that don't match any movies
+        String result = moviesController.searchMovies("Nonexistent Movie", null, null);
+        
+        // Verify the result shows no results message
+        assertTrue("Result should contain search form", result.contains("Search Movies"));
+        assertTrue("Result should contain no results message", result.contains("No movies found"));
+    }
+
+    @Test
+    public void testSearchMoviesEmptyParameters() {
+        // Test search functionality with empty parameters (should return all movies)
+        String result = moviesController.searchMovies("", null, "");
+        
+        // Verify the result contains all static movies
+        assertTrue("Result should contain search form", result.contains("Search Movies"));
+        assertTrue("Result should contain multiple movies", result.contains("Static Movie"));
     }
 
 }
