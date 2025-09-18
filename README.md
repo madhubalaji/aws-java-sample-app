@@ -13,6 +13,129 @@ Refer to following blog posts for additional information
 2. https://aws.amazon.com/blogs/devops/using-amazon-q-developer-cli-for-custom-java-application-transformations/
 3. https://aws.amazon.com/blogs/devops/amazon-q-developer-java-upgrades-a-deep-dive-into-new-selective-transformation-feature
 
+## **🎬 NEW FEATURE: Amazing Movie Search Adventure! 🔍✨**
+
+### **Spectacular Movie Search Functionality**
+
+We've added an incredible movie search feature that makes finding your favorite movies a fantastic adventure! 🎭
+
+#### **🚀 Search Endpoint**
+- **URL**: `/movies/search`
+- **Method**: GET
+- **Description**: Search for movies by name, ID, or genre with our amazing filtering system!
+
+#### **🎯 Search Parameters**
+- **`name`** (optional): Search movies by name (case-insensitive, partial matching)
+- **`id`** (optional): Find movies by exact ID
+- **`genre`** (optional): Filter movies by genre (case-insensitive, partial matching)
+
+#### **✨ Example Usage**
+
+**Search by Movie Name:**
+```
+GET /movies/search?name=Adventure
+```
+Finds all movies with "Adventure" in the name!
+
+**Search by Movie ID:**
+```
+GET /movies/search?id=3
+```
+Finds the movie with ID 3!
+
+**Search by Genre:**
+```
+GET /movies/search?genre=Comedy
+```
+Finds all Comedy movies!
+
+**Combined Search (Super Powerful!):**
+```
+GET /movies/search?name=Love&genre=Romance
+```
+Finds Romance movies with "Love" in the name!
+
+#### **🎨 Amazing Features**
+
+1. **Beautiful Search Form**: Interactive HTML form with spectacular styling
+2. **Real-time Results**: Instant search results with beautiful formatting
+3. **Smart Filtering**: Case-insensitive search with partial matching
+4. **Error Handling**: Graceful handling of invalid inputs and empty results
+5. **Responsive Design**: Works great on all devices with stunning gradients
+6. **Security**: XSS protection with proper HTML escaping
+
+#### **🎭 Enhanced Movie Model**
+
+Movies now include genre information:
+- **ID**: Unique movie identifier
+- **Movie Name**: The spectacular movie title
+- **Genre**: Movie category (Action, Comedy, Sci-Fi, Romance, etc.)
+
+#### **🌟 Sample Movie Data**
+
+Our fantastic static movie collection includes:
+- The Amazing Adventure (Action)
+- Laugh Out Loud (Comedy)
+- Space Odyssey (Sci-Fi)
+- Love Story Supreme (Romance)
+- Mystery of the Lost Treasure (Mystery)
+- Horror House (Horror)
+- Epic Fantasy Quest (Fantasy)
+- Documentary Delight (Documentary)
+- Animated Wonder (Animation)
+- Thrilling Chase (Thriller)
+
+#### **🎪 AppConfig Integration**
+
+For AppConfig-based movies, update your JSON structure to include genres:
+
+```json
+{
+  "movies": [
+    {
+      "id": 1,
+      "movieName": "The Shawshank Redemption",
+      "genre": "Drama"
+    },
+    {
+      "id": 2,
+      "movieName": "City of God",
+      "genre": "Crime"
+    }
+  ]
+}
+```
+
+#### **🧪 Comprehensive Testing**
+
+Our search feature includes spectacular test coverage:
+- Search by name functionality
+- Search by ID functionality  
+- Search by genre functionality
+- Combined search criteria
+- Empty results handling
+- Invalid input handling
+- Case-insensitive search
+- XSS protection
+
+#### **🎯 Edge Cases Handled**
+
+- **Empty Search Results**: Friendly message encouraging different search terms
+- **Invalid ID Format**: Graceful handling of non-numeric IDs
+- **Missing Parameters**: Welcome message for empty search form
+- **XSS Protection**: All user inputs are properly escaped
+- **AppConfig Fallback**: Falls back to static movies if AppConfig fails
+
+### **How to Use the Search Feature**
+
+1. **Start the Application**: Run the Spring Boot application
+2. **Access Search**: Navigate to `http://localhost:8080/movies/search`
+3. **Enter Criteria**: Fill in any combination of name, ID, or genre
+4. **Click Search**: Hit the "🚀 Search Movies!" button
+5. **Enjoy Results**: View your spectacular search results!
+
+The search form is intuitive and provides instant feedback with beautiful styling and animations! 🎨✨
+
 ## **CI/CD Pipeline Configuration**
 
 **In preparation for Amazon Q Developer code transformation**, this project includes pre-configured CI/CD pipelines that automatically adapt to both Java 8 (pre-transformation) and Java 17 (post-transformation) code. These pipelines ensure your build process works seamlessly before, during, and after the Q Developer transformation process:
@@ -275,7 +398,7 @@ Note: Depending on the deployment strategy you selected, this operation might ta
 1. Open [CloudFormation console](https://console.aws.amazon.com/cloudformation/home) and click on “Create stack”, selecting “With new resources” option.
 2. In the next screen, under the “Specify template” section choose “Upload template file“, and provide the file you downloaded from the repo */templates/ecs-cluster.yml.*
 3. Click next, give the stack a name like “ECSCluster-dev“, and choose dev as value for the Environment parameter.Click next, optionally define your tags, and click next again. On the last screen, don’t forget to tick the check box in the “Capabilities” section, and finally click on “Create stack” button.
-	
+        
 ### STEP 3: Clone the code repository, create a Docker container, and publish to Amazon ECR
 
 1. Git clone this [Repository](https://github.com/aws-samples/aws-appconfig-java-sample)
