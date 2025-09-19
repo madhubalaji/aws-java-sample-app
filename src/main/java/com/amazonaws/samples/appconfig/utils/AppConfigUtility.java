@@ -35,6 +35,7 @@ public class AppConfigUtility {
         this.cache = configurationCache;
         this.cacheItemTtl = cacheItemTtl;
         this.clientId = clientId;
+        this.methodIsntReal();
 
     }
 
